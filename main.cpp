@@ -29,6 +29,7 @@ int g_nCCCount = 0;
 
 int g_nN = 0; // total node counts
 int g_nEdgesCount = 0;
+int g_nMinCost = 0;
 bool g_bCollected[ MAX ] = { false };
 
 void Algorithm( void )
@@ -116,6 +117,7 @@ void Algorithm( void )
         // pick this edge
         g_nMCST.push_back( MinEdge );
         nCollectedEdgeCount++;
+        g_nMinCost += MinEdge.nWeight;
         g_bCollected[ nIdx1 ] = true;
         g_bCollected[ nIdx2 ] = true;
     }
@@ -138,6 +140,16 @@ int main( void ) {
         g_nAdjList[ nEndIdx ].push_back( nStartIdx );
     }
 
+    // Kruskal's Algorithm
     Algorithm();
+
+    // print minimum cost and path
+    cout << "Min cost = " << g_nMinCost << endl;
+    int nPathSize = g_nMCST.size();
+    cout << "Dest 1, Dest 2, Weight" << endl;
+    for( int i = 0; i < nPathSize; i++ ) {
+        cout << g_nMCST.at( i ).nDest[ 0 ] << ", " << g_nMCST.at( i ).nDest[ 1 ] << ", " << g_nMCST.at( i ).nWeight << endl;
+    }
+
     return 0;
 }
